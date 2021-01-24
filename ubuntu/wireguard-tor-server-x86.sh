@@ -91,13 +91,11 @@ gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
 
 
 apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode unbound unbound-host python curl linux-headers-$(uname -r) apt-transport-https -y 
+apt install qrencode python curl linux-headers-$(uname -r) apt-transport-https -y 
 apt install wireguard-dkms wireguard-tools tor deb.torproject.org-keyring -y
 
-#
 
-exit
-##################################################################################################################################
+##################################################baustelle################################################################################
 
 
 ### setup ufw and sysctl
@@ -120,6 +118,12 @@ sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 sed -i 's@#net/ipv6/conf/default/forwarding=1@net/ipv6/conf/default/forwarding=1@g' /etc/ufw/sysctl.conf
 sed -i 's@#net/ipv6/conf/all/forwarding=1@net/ipv6/conf/all/forwarding=1@g' /etc/ufw/sysctl.conf
 #
+
+##################################################baustelle################################################################################
+
+
+
+
 ### setup wireguard keys and configs
 mkdir /etc/wireguard/keys
 chmod 700 /etc/wireguard/keys
@@ -281,10 +285,10 @@ echo "
 
 #
 ### setup systemctl
-systemctl stop systemd-resolved
-systemctl disable systemd-resolved
-cp /etc/resolv.conf /etc/resolv.conf.orig
-rm -f /etc/resolv.conf
+#systemctl stop systemd-resolved
+#systemctl disable systemd-resolved
+#cp /etc/resolv.conf /etc/resolv.conf.orig
+#rm -f /etc/resolv.conf
 systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 systemctl restart tor
