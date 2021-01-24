@@ -2,7 +2,7 @@
 If this project help you, maybe you can give me a cup of coffee :)  - [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=WGCNYVFKTHC3C) - thanks.
 
 ### Project start 2021.01.24
-#### status : looking for ideas how to do this.
+#### status : first tests looking good, but the work is not done.
 
 ## ** project target 
 * wireguard client vpn connection to server 
