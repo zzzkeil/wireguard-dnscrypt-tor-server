@@ -2,6 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
+echo " 2021.01.24 18.00  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-tor-server "
