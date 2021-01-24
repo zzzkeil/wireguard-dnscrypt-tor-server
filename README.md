@@ -10,6 +10,15 @@ If this project help you, maybe you can give me a cup of coffee :)  - [![Donate]
 
 
 ## How to install :  
-* project not ready now
+## use the following just for testing 
+
+###### Server x86 - Ubuntu 20.04 :
+```
+wget -O  wireguard-tor-server-x86.sh https://raw.githubusercontent.com/zzzkeil/wireguard-tor-server/main/ubuntu/wireguard-tor-server-x86.sh
+chmod +x wireguard-tor-server-x86.sh
+./wireguard-tor-server-x86.sh
+```
+
+
 
 
