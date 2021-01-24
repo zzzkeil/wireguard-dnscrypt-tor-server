@@ -103,6 +103,8 @@ apt install wireguard-dkms wireguard-tools tor deb.torproject.org-keyring -y
 ### setup ufw and sysctl
 inet=$(ip route show default | awk '/default/ {print $5}')
 ufw allow $wg0port/udp
+ufw allow 53530
+ufw allow 9040
 cp /etc/default/ufw /root/script_backupfiles/ufw.orig
 cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
 cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
