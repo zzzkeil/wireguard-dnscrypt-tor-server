@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.24 18.18  "
+echo " 2021.01.24 18.54  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-tor-server "
@@ -107,11 +107,11 @@ cp /etc/default/ufw /root/script_backupfiles/ufw.orig
 cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
 cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
 sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
-sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.8.0.0/24 -o $inet -j MASQUERADE\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before.rules
-sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s 10.8.0.0/24 -m state --state NEW -j ACCEPT\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:53530\n-A PREROUTING -i wg0 -p tcp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040' /etc/ufw/before.rules
+sed -i '1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.8.0.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:53530\n-A PREROUTING -i wg0 -p tcp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040\nCOMMIT\n# END WIREGUARD RULES\n' /etc/ufw/before.rules
+sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s 10.8.0.0/24 -m state --state NEW -j ACCEPT' /etc/ufw/before.rules
 sed -i '/-A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT/a \\n# allow outbound icmp\n-A ufw-before-output -p icmp -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT\n-A ufw-before-output -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT\n' /etc/ufw/before.rules
-sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n\n-A POSTROUTING -s fd42:42:42:42::/112 -o $inet -j MASQUERADE\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before6.rules
-sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s fd42:42:42:42::/112 -m state --state NEW -j ACCEPT\n-A PREROUTING -i wg0 -p udp --dport 53 -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:53530\n-A PREROUTING -i wg0 -p tcp -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:9040\n-A PREROUTING -i wg0 -p udp -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:9040' /etc/ufw/before6.rules
+sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s fd42:42:42:42::/112 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:53530\n-A PREROUTING -i wg0 -p tcp -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:9040\n-A PREROUTING -i wg0 -p udp -s fd42:42:42:42::/112 -j DNAT --to-destination [fd42:42:42:42::1]:9040\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before6.rules
+sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s fd42:42:42:42::/112 -m state --state NEW -j ACCEPT' /etc/ufw/before6.rules
 cp /etc/sysctl.conf /root/script_backupfiles/sysctl.conf.orig
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 sed -i 's/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
