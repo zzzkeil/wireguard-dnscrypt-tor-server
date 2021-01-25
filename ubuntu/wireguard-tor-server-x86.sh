@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.25 19.10  "
+echo " 2021.01.25 19.30  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-tor-server "
@@ -124,6 +124,16 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 " >> /etc/sysctl.conf
 
+echo "
+#!/bin/bash
+# /etc/rc.local
+
+/etc/sysctl.d
+/etc/init.d/procps restart
+
+exit 0
+" >> /etc/rc.local
+chmod 755 /etc/rc.local
 
 
 ##################################################baustelle################################################################################
