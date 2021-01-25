@@ -2,10 +2,10 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.25 20:30  "
+echo " 2021.01.25 20:40  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
-echo " https://github.com/zzzkeil/wireguard-tor-server "
+echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
 echo " ##############################################################################"
 echo " ##############################################################################"
 echo ""
@@ -52,7 +52,7 @@ if [[ -e /etc/debian_version ]]; then
 fi
 #
 ### script already installed check
-if [[ -e /root/Wireguard-Tor-Server.README ]]; then
+if [[ -e /root/Wireguard-DNScrypt-Tor-Server.README ]]; then
      echo
 	 echo
          echo "Looks like this script is already installed"
@@ -63,10 +63,10 @@ if [[ -e /root/Wireguard-Tor-Server.README ]]; then
          echo " ./remove_client.sh	to remove clients" 
 	 echo ""
 	 echo "More instructions in this file: "
-	 echo "/root/Wireguard-Tor-Server.README"
+	 echo "/root/Wireguard-DNScrypt-Tor-Server.README"
 	 echo ""
 	 echo "For - News / Updates / Issues - check my github site"
-	 echo "https://github.com/zzzkeil/wireguard-tor-server"
+	 echo "https://github.com/zzzkeil/wireguard-dnscrypt-tor-server"
 	 echo
 	 echo
 	 exit 1
@@ -340,7 +340,7 @@ echo "
 Instructions coming soon 
 For - News / Updates / Issues - check my github site
 https://github.com/zzzkeil
-" > /root/Wireguard-Tor-Server.README
+" > /root/Wireguard-DNScrypt-Tor-Server.README
 
 #
 ### finish
