@@ -2,4 +2,4 @@
 - tor config possibilities
    - ? tor custom ports ? 
 - DNScrypt or unbound local over tor 
-- .....
+  - local adblock, ( blocklists )
