@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.25 20:40  "
+echo " 2021.01.26 13:55  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
@@ -115,7 +115,7 @@ sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 cp /etc/ufw/sysctl.conf /root/script_backupfiles/sysctl.conf.ufw.orig
 sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 
-# disable ipv6
+# disable ipv6 4 sure :)
 echo "
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
@@ -127,6 +127,13 @@ net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 " >> /etc/ufw/sysctl.conf
+
+
+###crash network
+#sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 /g' /etc/default/grub
+#update-grub
+###crash network
+
 
 ##################################################baustelle################################################################################
 
@@ -360,4 +367,3 @@ ln -s /etc/wireguard/ /root/wireguard_folder
 ln -s /var/log /root/system-log_folder
 ufw --force enable
 ufw reload
-
