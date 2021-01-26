@@ -1,5 +1,5 @@
 listen_addresses = ['10.8.0.1:5353']
-disabled_server_names = ['cs-fr', 'bcn-dnscrypt']
+disabled_server_names = ['anon-cs-de2', 'anon-cs-nl']
 max_clients = 250
 ipv4_servers = true
 ipv6_servers = false
