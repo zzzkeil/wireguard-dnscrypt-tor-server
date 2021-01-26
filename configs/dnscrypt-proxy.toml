@@ -1,5 +1,5 @@
 listen_addresses = ['10.8.0.1:5353']
-disabled_server_names = ['anon-cs-de2', 'anon-cs-nl']
+disabled_server_names = ['anon-cs-de2', 'anon-cs-nl', 'anon-cs-fr', 'anon-bcn', 'cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familyshield-ipv6', 'cleanbrowsing-adult', 'cleanbrowsing-adult-ipv6', 'cleanbrowsing-family', 'cleanbrowsing-family-ipv6', 'cleanbrowsing-security', 'cleanbrowsing-security-ipv6']
 max_clients = 250
 ipv4_servers = true
 ipv6_servers = false
@@ -30,11 +30,19 @@ blocked_names_file = 'blocklist.txt'
 log_file = '/var/log/dnscrypt-proxy-blocked.log'
 [sources]
   [sources.'public-resolvers']
-  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md']
+  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/public-resolvers.md', 'https://download.dnscrypt.net/resolvers-list/v3/public-resolvers.md']
   cache_file = 'public-resolvers.md'
   minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
   refresh_delay = 72
   prefix = ''
+
+  [sources.'relays']
+  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/relays.md', 'https://download.dnscrypt.info/resolvers-list/v3/relays.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/relays.md', 'https://download.dnscrypt.net/resolvers-list/v3/relays.md']
+  cache_file = 'relays.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+  prefix = ''
+  
 [static]
 
 # Anonymized DNS section.
@@ -42,7 +50,8 @@ log_file = '/var/log/dnscrypt-proxy-blocked.log'
 [anonymized_dns]
 
 routes = [
-   { server_name='*', via=['anon-cs-de2', 'anon-cs-nl'] }
+   { server_name='google', via=['anon-cs-de2', 'anon-cs-nl'] },
+   { server_name='cloudflare', via=['anon-cs-fr', 'anon-bcn'] }
 ]
 
 skip_incompatible = true
