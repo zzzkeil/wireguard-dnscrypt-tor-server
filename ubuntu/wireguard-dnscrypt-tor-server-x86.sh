@@ -96,10 +96,6 @@ apt update && apt upgrade -y && apt autoremove -y
 apt install qrencode python curl linux-headers-$(uname -r) apt-transport-https -y 
 apt install wireguard-dkms wireguard-tools tor deb.torproject.org-keyring -y
 
-
-##################################################baustelle################################################################################
-
-
 ### setup ufw and sysctl
 inet=$(ip route show default | awk '/default/ {print $5}')
 ufw allow $wg0port/udp
@@ -115,7 +111,7 @@ sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 cp /etc/ufw/sysctl.conf /root/script_backupfiles/sysctl.conf.ufw.orig
 sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 
-# disable ipv6 4 sure :)
+### disable ipv6
 echo "
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
@@ -141,27 +137,6 @@ ExecStart=/opt/ipv6network/disable_ipv6.sh
 WantedBy=multi-user.target
 " >> /etc/systemd/system/disable_ipv6.service
 systemctl enable disable_ipv6.service
-
-
-#echo "
-#net.ipv6.conf.all.disable_ipv6 = 1
-#net.ipv6.conf.default.disable_ipv6 = 1
-#net.ipv6.conf.lo.disable_ipv6 = 1
-#" >> /etc/ufw/sysctl.conf
-
-#echo "net.ipv6.conf.eth0.disable_ipv6 = 1" > /etc/sysctl.d/00_ipv6_off.conf
-
-###crash network
-#sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 /g' /etc/default/grub
-#sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="ipv6.disable=1"/g' /etc/default/grub
-#update-grub
-###crash network
-
-
-##################################################baustelle################################################################################
-
-
-
 
 ### setup wireguard keys and configs
 mkdir /etc/wireguard/keys
