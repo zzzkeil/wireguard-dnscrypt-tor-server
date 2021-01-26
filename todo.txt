@@ -1,8 +1,9 @@
 - tor config possibilities
    - ? tor custom ports ? 
-- DNScrypt or unbound local over tor 
+- DNScrypt with Anonymized DNS
   - local adblock, ( blocklists )
-- disabel ipv6 systemwide  
+
 
 
 this shoud be done :
+- disabel ipv6 systemwide  
