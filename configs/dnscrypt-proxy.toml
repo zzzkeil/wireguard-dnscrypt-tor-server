@@ -1,5 +1,5 @@
 listen_addresses = ['10.8.0.1:5353']
-disabled_server_names = ['cs-de2', 'cs-nl', 'cs-fr', 'bcn', 'cisco', 'cisco-ipv6', 'cisco-familyshield', 'cisco-familyshield-ipv6', 'cleanbrowsing-adult', 'cleanbrowsing-adult-ipv6', 'cleanbrowsing-family', 'cleanbrowsing-family-ipv6', 'cleanbrowsing-security', 'cleanbrowsing-security-ipv6']
+disabled_server_names = ['cs-de2', 'cs-nl', 'cs-fr', 'bcn', 'cisco', 'cisco-familyshield', 'cleanbrowsing-adult', 'cleanbrowsing-family', 'cleanbrowsing-security', 'adguard-dns-unfiltered']
 max_clients = 250
 ipv4_servers = true
 ipv6_servers = false
@@ -15,7 +15,9 @@ log_level = 2
 log_file = '/var/log/dnscrypt-proxy.log'
 cert_refresh_delay = 33
 fallback_resolver = '10.8.0.1:53530'
-ignore_system_dns = false
+ignore_system_dns = true
+netprobe_timeout = 60
+netprobe_address = '9.9.9.9:53'
 log_files_max_size = 1
 log_files_max_age = 1
 log_files_max_backups = 7
@@ -50,8 +52,7 @@ log_file = '/var/log/dnscrypt-proxy-blocked.log'
 [anonymized_dns]
 
 routes = [
-   { server_name='faelix-ch-ipv4', via=['anon-cs-de2', 'anon-cs-nl'] },
-   { server_name='moulticast-de-ipv4', via=['anon-cs-fr', 'anon-bcn'] }
+   { server_name='*', via=['anon-cs-de2', 'anon-cs-nl', 'anon-cs-fr', 'anon-bcn'] }
 ]
 
 skip_incompatible = true
