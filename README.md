@@ -8,7 +8,7 @@ If this project help you, maybe you can give me a cup of coffee :)  - [![Donate]
 ## ** project target 
 * wireguard client vpn connection to server 
 * all traffic from wireguard clients to tor network
-* dns nameresulotion over dnscrypt with blocklists
+* dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
 
 
 ## How to install :  
