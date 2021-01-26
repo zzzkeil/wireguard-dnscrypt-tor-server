@@ -1,9 +1,10 @@
 listen_addresses = ['10.8.0.1:5353']
+disabled_server_names = ['cs-fr', 'bcn-dnscrypt']
 max_clients = 250
 ipv4_servers = true
 ipv6_servers = false
 dnscrypt_servers = true
-doh_servers = true
+doh_servers = false
 require_dnssec = true
 require_nolog = true
 require_nofilter = true
@@ -35,3 +36,13 @@ log_file = '/var/log/dnscrypt-proxy-blocked.log'
   refresh_delay = 72
   prefix = ''
 [static]
+
+# Anonymized DNS section.
+# -----------------------
+[anonymized_dns]
+
+routes = [
+   { server_name='*', via=['anon-cs-de2', 'anon-cs-nl'] }
+]
+
+skip_incompatible = true
