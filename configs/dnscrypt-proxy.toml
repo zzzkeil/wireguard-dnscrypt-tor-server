@@ -50,8 +50,8 @@ log_file = '/var/log/dnscrypt-proxy-blocked.log'
 [anonymized_dns]
 
 routes = [
-   { server_name='google', via=['anon-cs-de2', 'anon-cs-nl'] },
-   { server_name='cloudflare', via=['anon-cs-fr', 'anon-bcn'] }
+   { server_name='*', via=['anon-cs-de2', 'anon-cs-nl'] },
+   { server_name='*', via=['anon-cs-fr', 'anon-bcn'] }
 ]
 
 skip_incompatible = true
