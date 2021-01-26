@@ -3,7 +3,7 @@ If this project help you, maybe you can give me a cup of coffee :)  - [![Donate]
 
 ### Project start 2021.01.24
 
-#### status 2021.01.25 : working on dnscrypt with local blocklist and ipv6 disable
+#### status 2021.01.26 : working on dnscrypt with local blocklist
 
 ## ** project target 
 * wireguard client vpn connection to server 
