@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.26 13:55  "
+echo " 2021.01.26 19:40  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
@@ -122,15 +122,38 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 " >> /etc/sysctl.conf
 
+mkdir /opt/ipv6network
+echo "#!/bin/bash
+sysctl -p
+exit
+" > /opt/ipv6network/disable_ipv6.sh
+chmod u+x /opt/ipv6network/disable_ipv6.sh
 echo "
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
-" >> /etc/ufw/sysctl.conf
+[Unit]
+Description=disable_ipv6
+After=network.target
+After=network-online.target
+[Service]
+WorkingDirectory=/opt/ipv6network/
+Type=forking
+ExecStart=/opt/ipv6network/disable_ipv6.sh
+[Install]
+WantedBy=multi-user.target
+" >> /etc/systemd/system/disable_ipv6.service
+systemctl enable disable_ipv6.service
 
+
+#echo "
+#net.ipv6.conf.all.disable_ipv6 = 1
+#net.ipv6.conf.default.disable_ipv6 = 1
+#net.ipv6.conf.lo.disable_ipv6 = 1
+#" >> /etc/ufw/sysctl.conf
+
+#echo "net.ipv6.conf.eth0.disable_ipv6 = 1" > /etc/sysctl.d/00_ipv6_off.conf
 
 ###crash network
 #sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 /g' /etc/default/grub
+#sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="ipv6.disable=1"/g' /etc/default/grub
 #update-grub
 ###crash network
 
@@ -362,7 +385,8 @@ qrencode -o /etc/wireguard/client3.png < /etc/wireguard/client3.conf
 qrencode -o /etc/wireguard/client4.png < /etc/wireguard/client4.conf
 qrencode -o /etc/wireguard/client5.png < /etc/wireguard/client5.conf
 echo ""
-sysctl -p
+systemctl start disable_ipv6.service
+ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
 ln -s /etc/wireguard/ /root/wireguard_folder
 ln -s /var/log /root/system-log_folder
 ufw --force enable
