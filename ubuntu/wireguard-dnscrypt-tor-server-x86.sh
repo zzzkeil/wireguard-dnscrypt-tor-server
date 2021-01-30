@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.30 15:51  "
+echo " 2021.01.30 16:13  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
@@ -117,6 +117,11 @@ net.ipv6.conf.$inet.disable_ipv6 = 1
 net.ipv6.conf.wg0.disable_ipv6 = 1
 " >> /etc/sysctl.conf
 
+echo "#!/bin/bash
+sysctl -p
+exit
+" > /root/startup.sh
+chmod u+x /root/startup.sh
 
 
 ### disable ipv6 = result in network issues over time ....
@@ -335,6 +340,8 @@ chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
 (crontab -l ; echo "15 * * * 5 cd /etc/dnscrypt-proxy/ &&  ./etc/dnscrypt-proxy/checkblocklist.sh") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 4,5 /bin/systemctl restart dnscrypt-proxy.service") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 6 /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh") | sort - | uniq - | crontab -
+(crontab -l ; echo "@reboot sleep 5 &&") | sort - | uniq - | crontab -
+
 
 #
 ### setup systemctl
