@@ -112,16 +112,11 @@ cp /etc/ufw/sysctl.conf /root/script_backupfiles/sysctl.conf.ufw.orig
 sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 
 
+#### not working 4 now
 echo "
 net.ipv6.conf.$inet.disable_ipv6 = 1
 net.ipv6.conf.wg0.disable_ipv6 = 1
 " >> /etc/sysctl.conf
-
-echo "#!/bin/bash
-sysctl -p
-exit
-" > /root/startup.sh
-chmod u+x /root/startup.sh
 
 
 ### disable ipv6 = result in network issues over time ....
@@ -340,7 +335,6 @@ chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
 (crontab -l ; echo "15 * * * 5 cd /etc/dnscrypt-proxy/ &&  ./etc/dnscrypt-proxy/checkblocklist.sh") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 4,5 /bin/systemctl restart dnscrypt-proxy.service") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 6 /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh") | sort - | uniq - | crontab -
-(crontab -l ; echo "@reboot sleep 5 && /root/startup.sh") | sort - | uniq - | crontab -
 
 
 #
@@ -378,8 +372,6 @@ qrencode -o /etc/wireguard/client3.png < /etc/wireguard/client3.conf
 qrencode -o /etc/wireguard/client4.png < /etc/wireguard/client4.conf
 qrencode -o /etc/wireguard/client5.png < /etc/wireguard/client5.conf
 echo ""
-sysctl -p
-#systemctl start disable_ipv6.service
 ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
 ln -s /etc/wireguard/ /root/wireguard_folder
 ln -s /var/log /root/system-log_folder
