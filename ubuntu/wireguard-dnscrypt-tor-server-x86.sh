@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.30 17:15  "
+echo " 2021.01.30 18:22  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
@@ -98,8 +98,8 @@ apt install wireguard-dkms wireguard-tools tor deb.torproject.org-keyring -y
 
 ### setup ufw and sysctl
 inet=$(ip route show default | awk '/default/ {print $5}')
-#ufw allow $wg0port/udp
-ufw allow proto udp from 0.0.0.0/0 port $wg0port
+ufw allow $wg0port/udp
+#ufw allow proto udp from 0.0.0.0/0 port $wg0port
 cp /etc/default/ufw /root/script_backupfiles/ufw.orig
 cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
 cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
