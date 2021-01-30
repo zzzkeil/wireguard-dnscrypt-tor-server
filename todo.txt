@@ -7,3 +7,4 @@
 this shoud be done :
 - DNScrypt with Anonymized DNS
   - local adblock, ( blocklists )
+  - access onion domains > tornetwork > some people call it darknet.....
