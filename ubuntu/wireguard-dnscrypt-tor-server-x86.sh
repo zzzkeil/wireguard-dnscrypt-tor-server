@@ -2,7 +2,7 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.26 19:40  "
+echo " 2021.01.30 15:51  "
 echo " this is a test, do not run this script now ITS NOT READY !  "
 echo " check script status here : "
 echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
@@ -111,32 +111,43 @@ sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 cp /etc/ufw/sysctl.conf /root/script_backupfiles/sysctl.conf.ufw.orig
 sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 
-### disable ipv6
+
 echo "
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.$inet.disable_ipv6 = 1
+net.ipv6.conf.wg0.disable_ipv6 = 1
 " >> /etc/sysctl.conf
 
-mkdir /opt/ipv6network
-echo "#!/bin/bash
-sysctl -p
-exit
-" > /opt/ipv6network/disable_ipv6.sh
-chmod u+x /opt/ipv6network/disable_ipv6.sh
-echo "
-[Unit]
-Description=disable_ipv6
-After=network.target
-After=network-online.target
-[Service]
-WorkingDirectory=/opt/ipv6network/
-Type=forking
-ExecStart=/opt/ipv6network/disable_ipv6.sh
-[Install]
-WantedBy=multi-user.target
-" >> /etc/systemd/system/disable_ipv6.service
-systemctl enable disable_ipv6.service
+
+
+### disable ipv6 = result in network issues over time ....
+#echo "
+#net.ipv6.conf.all.disable_ipv6 = 1
+#net.ipv6.conf.default.disable_ipv6 = 1
+#net.ipv6.conf.lo.disable_ipv6 = 1
+#" >> /etc/sysctl.conf
+
+#mkdir /opt/ipv6network
+#echo "#!/bin/bash
+#sysctl -p
+#exit
+#" > /opt/ipv6network/disable_ipv6.sh
+#chmod u+x /opt/ipv6network/disable_ipv6.sh
+#echo "
+#[Unit]
+#Description=disable_ipv6
+#After=network.target
+#After=network-online.target
+#[Service]
+#WorkingDirectory=/opt/ipv6network/
+#Type=forking
+#ExecStart=/opt/ipv6network/disable_ipv6.sh
+#[Install]
+#WantedBy=multi-user.target
+#" >> /etc/systemd/system/disable_ipv6.service
+#systemctl enable disable_ipv6.service
+
+
+
 
 ### setup wireguard keys and configs
 mkdir /etc/wireguard/keys
@@ -360,7 +371,8 @@ qrencode -o /etc/wireguard/client3.png < /etc/wireguard/client3.conf
 qrencode -o /etc/wireguard/client4.png < /etc/wireguard/client4.conf
 qrencode -o /etc/wireguard/client5.png < /etc/wireguard/client5.conf
 echo ""
-systemctl start disable_ipv6.service
+sysctl -p
+#systemctl start disable_ipv6.service
 ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
 ln -s /etc/wireguard/ /root/wireguard_folder
 ln -s /var/log /root/system-log_folder
