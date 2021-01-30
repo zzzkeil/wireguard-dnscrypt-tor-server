@@ -15,6 +15,7 @@ log_level = 2
 log_file = '/var/log/dnscrypt-proxy.log'
 cert_refresh_delay = 33
 fallback_resolver = '10.8.0.1:53530'
+forwarding_rules = 'forwarding-rules.txt'
 ignore_system_dns = true
 netprobe_timeout = 60
 netprobe_address = '9.9.9.9:53'
