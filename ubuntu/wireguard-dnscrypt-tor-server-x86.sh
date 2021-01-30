@@ -340,7 +340,7 @@ chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
 (crontab -l ; echo "15 * * * 5 cd /etc/dnscrypt-proxy/ &&  ./etc/dnscrypt-proxy/checkblocklist.sh") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 4,5 /bin/systemctl restart dnscrypt-proxy.service") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 6 /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh") | sort - | uniq - | crontab -
-(crontab -l ; echo "@reboot sleep 5 &&") | sort - | uniq - | crontab -
+(crontab -l ; echo "@reboot sleep 5 && /root/startup.sh") | sort - | uniq - | crontab -
 
 
 #
