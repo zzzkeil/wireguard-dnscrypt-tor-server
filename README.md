@@ -3,13 +3,18 @@ If this project help you, maybe you can give me a cup of coffee :)  - [![Donate]
 
 ### Project start 2021.01.24
 
-#### status 2021.01.26 : working on dnscrypt with local blocklist
+#### status 2021.01.30 : nearly done to ..."release"...
+** whats working :  
+* wireguard
+* dnscrypt
+* tor
+
 
 ## ** project target 
 * wireguard client vpn connection to server 
 * all traffic from wireguard clients to tor network
 * dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
-
+* onion (darknet) nameresulotion over dnscrypt forward to tor
 
 ## How to install :  
 ## use the following just for testing 
