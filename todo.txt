@@ -1,7 +1,9 @@
 - tor config possibilities
    - ? tor custom ports ? 
 
+
+- disabel ipv6 systemwide / > simple things not simple, can´t disabel ipv6 4 sure .......
+
 this shoud be done :
-- disabel ipv6 systemwide  
 - DNScrypt with Anonymized DNS
   - local adblock, ( blocklists )
