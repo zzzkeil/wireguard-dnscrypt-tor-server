@@ -2,10 +2,9 @@
 clear
 echo " ##############################################################################"
 echo " ##############################################################################"
-echo " 2021.01.30 18:55  "
-echo " this is a test, do not run this script now ITS NOT READY !  "
-echo " check script status here : "
-echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server "
+echo " Version date 2021.06.04 11:30                                                 "
+echo " Version changelog : enable systemd-resolved to get systemupdates              "
+echo " https://github.com/zzzkeil/wireguard-dnscrypt-tor-server                      "
 echo " ##############################################################################"
 echo " ##############################################################################"
 echo ""
