@@ -3,7 +3,7 @@ If this project help you, maybe you can give me a cup of coffee :)  - [![Donate]
 
 ### Project start 2021.01.24
 
-#### status 2021.01.30 : nearly done to ..."release"...
+#### status 2021.06.04 : systemd-resolved fixed to get systemsupdates
 ** whats working :  
 * wireguard
 * dnscrypt
