@@ -318,10 +318,10 @@ chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
 
 #
 ### setup systemctl
-systemctl stop systemd-resolved
-systemctl disable systemd-resolved
-cp /etc/resolv.conf /etc/resolv.conf.orig
-rm -f /etc/resolv.conf
+#systemctl stop systemd-resolved
+#systemctl disable systemd-resolved
+#cp /etc/resolv.conf /etc/resolv.conf.orig
+#rm -f /etc/resolv.conf
 systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 /etc/dnscrypt-proxy/dnscrypt-proxy -service install
