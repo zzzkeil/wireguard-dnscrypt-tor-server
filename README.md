@@ -1,3 +1,5 @@
+# Not up to date - i work on this one in Sep.2021
+
 # Wireguard-tor-Server 
 
 ### Project start 2021.01.24
