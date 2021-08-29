@@ -126,7 +126,6 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
 wg0port=51820
 wg0networkv4=66.66
-wg0networkv6=66:66:66
 wg0mtu="#MTU = 1420"
 wg0keepalive="#PersistentKeepalive = 25"
 else
@@ -142,13 +141,6 @@ echo " If you not familiar with ipv4 address scheme, do not change the defaults 
 echo "--------------------------------------------------------------------------------------------------------"
 echo "--------------------------------------------------------------------------------------------------------"
 read -p "clients ipv4 network: " -e -i 66.66 wg0networkv4
-echo "--------------------------------------------------------------------------------------------------------"
-echo " Wireguard ipv6 settings :"
-echo -e " Format prefix=fd42: suffix=::1 you can change the green value. eg. fd42:${GREEN}66:66:66${ENDCOLOR}::1"
-echo " If you not familiar with ipv6 address scheme, do not change the defaults and press [ENTER]."
-echo "--------------------------------------------------------------------------------------------------------"
-echo "--------------------------------------------------------------------------------------------------------"
-read -p "clients ipv6 network: " -e -i 66:66:66 wg0networkv6
 echo "--------------------------------------------------------------------------------------------------------"
 echo "--------------------------------------------------------------------------------------------------------"
 echo " Wireguard MTU settings :"
@@ -169,42 +161,9 @@ wg0keepalive="PersistentKeepalive = $wg0keepalive02"
 
 fi
 clear
+
 echo ""
 echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 echo "
 deb https://deb.torproject.org/torproject.org focal main
@@ -215,20 +174,60 @@ curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E8
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
 
 
+### apt systemupdate and installs	 
 apt update && apt upgrade -y && apt autoremove -y
 apt install qrencode python curl linux-headers-$(uname -r) apt-transport-https -y 
-apt install wireguard-dkms wireguard-tools tor deb.torproject.org-keyring -y
+apt install wireguard wireguard-tools tor deb.torproject.org-keyring -y
+
+
+### create and download files for configs
+echo "
++++ do not delete or modify this file +++
+++ This file contains settings line by line ++
+--- ip settings
+ipv4 
+$wg0networkv4
+--- port and misc settings
+wg0
+$wg0port
+$wg0mtu
+$wg0keepalive
+---
+For - News / Updates / Issues - check my github site
+https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server
+" > /root/Wireguard-DNScrypt-Tor-Server.README
+
+
+
+curl -o add_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/add_client.sh
+curl -o remove_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/remove_client.sh
+curl -o wg_config_backup.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_backup.sh
+curl -o wg_config_restore.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_restore.sh
+curl -o uninstaller_back_to_base.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/uninstaller_back_to_base.sh
+chmod +x add_client.sh
+chmod +x remove_client.sh
+chmod +x wg_config_backup.sh
+chmod +x wg_config_restore.sh
+chmod +x uninstaller_back_to_base.sh
+
+
+
+
+
+
+
+
 
 ### setup ufw and sysctl
 inet=$(ip route show default | awk '/default/ {print $5}')
-ufw allow $wg0port/udp
-#ufw allow proto udp from 0.0.0.0/0 port $wg0port
+#ufw allow $wg0port/udp
+ufw allow proto udp to 0.0.0.0/0 port $wg0port
 cp /etc/default/ufw /root/script_backupfiles/ufw.orig
 cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
 cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
 sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
-sed -i '1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.8.0.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:5353\n-A PREROUTING -i wg0 -p tcp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.8.0.0/24 -j DNAT --to-destination 10.8.0.1:9040\nCOMMIT\n# END WIREGUARD RULES\n' /etc/ufw/before.rules
-sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s 10.8.0.0/24 -m state --state NEW -j ACCEPT' /etc/ufw/before.rules
+sed -i '1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.$wg0networkv4.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:5353\n-A PREROUTING -i wg0 -p tcp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:9040\nCOMMIT\n# END WIREGUARD RULES\n' /etc/ufw/before.rules
+sed -i '/# End required lines/a \\n-A INPUT -i wg0 -s 10.$wg0networkv4.0/24 -m state --state NEW -j ACCEPT' /etc/ufw/before.rules
 sed -i '/-A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT/a \\n# allow outbound icmp\n-A ufw-before-output -p icmp -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT\n-A ufw-before-output -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT\n' /etc/ufw/before.rules
 cp /etc/sysctl.conf /root/script_backupfiles/sysctl.conf.orig
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
@@ -267,60 +266,42 @@ chmod 600 /etc/wireguard/keys/client3
 wg genkey > /etc/wireguard/keys/client3
 wg pubkey < /etc/wireguard/keys/client3 > /etc/wireguard/keys/client3.pub
 
-touch /etc/wireguard/keys/client4
-chmod 600 /etc/wireguard/keys/client4
-wg genkey > /etc/wireguard/keys/client4
-wg pubkey < /etc/wireguard/keys/client4 > /etc/wireguard/keys/client4.pub
 
-touch /etc/wireguard/keys/client5
-chmod 600 /etc/wireguard/keys/client5
-wg genkey > /etc/wireguard/keys/client5
-wg pubkey < /etc/wireguard/keys/client5 > /etc/wireguard/keys/client5.pub
-
-### -
 echo "[Interface]
-Address = 10.8.0.1/24
+Address = 10.$wg0networkv4.1/24
 ListenPort = $wg0port
 PrivateKey = SK01
 # client1
 [Peer]
 PublicKey = PK01
-AllowedIPs = 10.8.0.11/32
+AllowedIPs = 10.$wg0networkv4.11/32
 # client2
 [Peer]
 PublicKey = PK02
-AllowedIPs = 10.8.0.12/32
+AllowedIPs = 10.$wg0networkv4.12/32
 # client3
 [Peer]
 PublicKey = PK03
-AllowedIPs = 10.8.0.13/32
-# client4
-[Peer]
-PublicKey = PK04
-AllowedIPs = 10.8.0.14/32
-# client5
-[Peer]
-PublicKey = PK05
-AllowedIPs = 10.8.0.15/32
+AllowedIPs = 10.$wg0networkv4.13/32
 # -end of default clients
 " > /etc/wireguard/wg0.conf
+
 sed -i "s@SK01@$(cat /etc/wireguard/keys/server0)@" /etc/wireguard/wg0.conf
 sed -i "s@PK01@$(cat /etc/wireguard/keys/client1.pub)@" /etc/wireguard/wg0.conf
 sed -i "s@PK02@$(cat /etc/wireguard/keys/client2.pub)@" /etc/wireguard/wg0.conf
 sed -i "s@PK03@$(cat /etc/wireguard/keys/client3.pub)@" /etc/wireguard/wg0.conf
-sed -i "s@PK04@$(cat /etc/wireguard/keys/client4.pub)@" /etc/wireguard/wg0.conf
-sed -i "s@PK05@$(cat /etc/wireguard/keys/client5.pub)@" /etc/wireguard/wg0.conf
 chmod 600 /etc/wireguard/wg0.conf
 
-### -
 echo "[Interface]
-Address = 10.8.0.11/32
+Address = 10.$wg0networkv4.11/32
 PrivateKey = CK01
-DNS = 10.8.0.1
+DNS = 10.$wg0networkv4.1
+$wg0mtu
 [Peer]
 Endpoint = IP01:$wg0port
 PublicKey = SK01
 AllowedIPs = 0.0.0.0/0, ::/0
+$wg0keepalive
 " > /etc/wireguard/client1.conf
 sed -i "s@CK01@$(cat /etc/wireguard/keys/client1)@" /etc/wireguard/client1.conf
 sed -i "s@SK01@$(cat /etc/wireguard/keys/server0.pub)@" /etc/wireguard/client1.conf
@@ -328,13 +309,15 @@ sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client1.conf
 chmod 600 /etc/wireguard/client1.conf
 
 echo "[Interface]
-Address = 10.8.0.12/32
+Address = 10.$wg0networkv4.12/32
 PrivateKey = CK02
-DNS = 10.8.0.1
+DNS = 10.$wg0networkv4.1
+$wg0mtu
 [Peer]
 Endpoint = IP01:$wg0port
 PublicKey = SK01
 AllowedIPs = 0.0.0.0/0, ::/0
+$wg0keepalive
 " > /etc/wireguard/client2.conf
 sed -i "s@CK02@$(cat /etc/wireguard/keys/client2)@" /etc/wireguard/client2.conf
 sed -i "s@SK01@$(cat /etc/wireguard/keys/server0.pub)@" /etc/wireguard/client2.conf
@@ -342,46 +325,53 @@ sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client2.conf
 chmod 600 /etc/wireguard/client2.conf
 
 echo "[Interface]
-Address = 10.8.0.13/32
+Address = 10.$wg0networkv4.13/32
 PrivateKey = CK03
-DNS = 10.8.0.1
+DNS = 10.$wg0networkv4.1
+$wg0mtu
 [Peer]
 Endpoint = IP01:$wg0port
 PublicKey = SK01
 AllowedIPs = 0.0.0.0/0, ::/0
+$wg0keepalive
 " > /etc/wireguard/client3.conf
 sed -i "s@CK03@$(cat /etc/wireguard/keys/client3)@" /etc/wireguard/client3.conf
 sed -i "s@SK01@$(cat /etc/wireguard/keys/server0.pub)@" /etc/wireguard/client3.conf
 sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client3.conf
 chmod 600 /etc/wireguard/client3.conf
 
-echo "[Interface]
-Address = 10.8.0.14/32
-PrivateKey = CK04
-DNS = 10.8.0.1
-[Peer]
-Endpoint = IP01:$wg0port
-PublicKey = SK01
-AllowedIPs = 0.0.0.0/0, ::/0
-" > /etc/wireguard/client4.conf
-sed -i "s@CK04@$(cat /etc/wireguard/keys/client4)@" /etc/wireguard/client4.conf
-sed -i "s@SK01@$(cat /etc/wireguard/keys/server0.pub)@" /etc/wireguard/client4.conf
-sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client4.conf
-chmod 600 /etc/wireguard/client4.conf
 
-echo "[Interface]
-Address = 10.8.0.15/32
-PrivateKey = CK05
-DNS = 10.8.0.1
-[Peer]
-Endpoint = IP01:$wg0port
-PublicKey = SK01
-AllowedIPs = 0.0.0.0/0, ::/0
-" > /etc/wireguard/client5.conf
-sed -i "s@CK05@$(cat /etc/wireguard/keys/client5)@" /etc/wireguard/client5.conf
-sed -i "s@SK01@$(cat /etc/wireguard/keys/server0.pub)@" /etc/wireguard/client5.conf
-sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client5.conf
-chmod 600 /etc/wireguard/client5.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #
 
 ### setup tor
