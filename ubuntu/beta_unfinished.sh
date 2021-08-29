@@ -226,7 +226,7 @@ cp /etc/default/ufw /root/script_backupfiles/ufw.orig
 cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
 cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
 sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
-sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.$wg0networkv4.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:5353\n-A PREROUTING -i wg0 -p tcp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.8.0.1:9040\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before.rules
+sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.$wg0networkv4.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:5353\n-A PREROUTING -i wg0 -p tcp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:9040\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before.rules
 sed -i "/# End required lines/a \-A INPUT -i wg0 -s 10.$wg0networkv4.0/24 -m state --state NEW -j ACCEPT" /etc/ufw/before.rules
 sed -i '/-A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT/a \\n# allow outbound icmp\n-A ufw-before-output -p icmp -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT\n-A ufw-before-output -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT\n' /etc/ufw/before.rules
 cp /etc/sysctl.conf /root/script_backupfiles/sysctl.conf.orig
@@ -369,7 +369,7 @@ chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
 ### setup .onion access
 cp /etc/dnscrypt-proxy/example-forwarding-rules.txt /etc/dnscrypt-proxy/forwarding-rules.txt
 echo "
-onion 10.$wg0networkv4.1:53530
+*.onion 10.$wg0networkv4.1:53530
 " >> /etc/dnscrypt-proxy/forwarding-rules.txt
 
 
