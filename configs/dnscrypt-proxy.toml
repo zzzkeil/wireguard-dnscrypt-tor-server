@@ -1,4 +1,4 @@
-listen_addresses = ['10.8.0.1:5353']
+listen_addresses = ['0.0.0.0:5353']
 disabled_server_names = ['cs-de2', 'cs-nl', 'cs-fr', 'bcn', 'cisco', 'cisco-familyshield', 'cleanbrowsing-adult', 'cleanbrowsing-family', 'cleanbrowsing-security', 'adguard-dns-unfiltered']
 max_clients = 250
 # user_name = 'nobody'
