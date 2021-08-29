@@ -365,7 +365,7 @@ curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.co
 curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
 chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
 
-sed -i 's/0.0.0.0/10.$wg0networkv4.1/' /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+sed -i "s/0.0.0.0/10.$wg0networkv4.1/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 
 
 
