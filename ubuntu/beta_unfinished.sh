@@ -365,6 +365,9 @@ curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.co
 curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
 chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
 
+sed -i "s/listen_addresses = ['0.0.0.0:5353']/listen_addresses = ['10.$wg0networkv4.1:5353']/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+sed -i "s/bootstrap_resolvers = ['0.0.0.0:53530']/bootstrap_resolvers = ['10.$wg0networkv4.1:53530']/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+
 
 ### setup .onion access
 cp /etc/dnscrypt-proxy/example-forwarding-rules.txt /etc/dnscrypt-proxy/forwarding-rules.txt
