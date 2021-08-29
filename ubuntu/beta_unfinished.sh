@@ -369,7 +369,7 @@ chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
 ### setup .onion access
 cp /etc/dnscrypt-proxy/example-forwarding-rules.txt /etc/dnscrypt-proxy/forwarding-rules.txt
 echo "
-*.onion 10.$wg0networkv4.1:53530
+onion 10.$wg0networkv4.1:53530
 " >> /etc/dnscrypt-proxy/forwarding-rules.txt
 
 
