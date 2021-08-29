@@ -341,37 +341,6 @@ sed -i "s@IP01@$(hostname -I | awk '{print $1}')@" /etc/wireguard/client3.conf
 chmod 600 /etc/wireguard/client3.conf
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #
 
 ### setup tor
@@ -388,14 +357,14 @@ echo "
 
 ###setup DNSCrypt 
 mkdir /etc/dnscrypt-proxy/
-wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/jedisct1/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz
+wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.0/dnscrypt-proxy-linux_x86_64-2.1.0.tar.gz
 tar -xvzf /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz -C /etc/dnscrypt-proxy/
 mv -f /etc/dnscrypt-proxy/linux-x86_64/* /etc/dnscrypt-proxy/
-cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt
+cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt 
 curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy.toml
 curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
 chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
-#
+
 
 ### setup .onion access
 cp /etc/dnscrypt-proxy/example-forwarding-rules.txt /etc/dnscrypt-proxy/forwarding-rules.txt
@@ -403,30 +372,35 @@ echo "
 onion 10.8.0.1:53530
 " >> /etc/dnscrypt-proxy/forwarding-rules.txt
 
-#
-### setup blocklist and a allowlist from (anudeepND)"
+
+### setup blocklist (url & ips) and a allowlist from (anudeepND)"
+### !!! this configs files linked to my Wireguard-DNScrypt-VPN-Server repository !!!
 mkdir /etc/dnscrypt-proxy/utils/
 mkdir /etc/dnscrypt-proxy/utils/generate-domains-blocklists/
-curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/blocklist/domains-blocklist-default.conf
+curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/blocklist/domains-blocklist-default.conf
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist-local-additions.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-blocklist-local-additions.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-time-restricted.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-time-restricted.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-allowlist.txt https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py https://raw.githubusercontent.com/DNSCrypt/dnscrypt-proxy/master/utils/generate-domains-blocklist/generate-domains-blocklist.py
 chmod +x /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py
 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/
+nano /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf
 ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklist.txt
 cd
 ## check if generate blocklist failed - file is empty
-curl -o /etc/dnscrypt-proxy/checkblocklist.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/checkblocklist.sh
+curl -o /etc/dnscrypt-proxy/checkblocklist.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/configs/checkblocklist.sh
 chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
-#
+
+curl -o /etc/dnscrypt-proxy/blockedlist-ips.txt https://iplists.firehol.org/files/yoyo_adservers.ipset
+
 ### create crontabs
 (crontab -l ; echo "50 23 * * 4 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/ &&  ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklists.txt") | sort - | uniq - | crontab -
+(crontab -l ; echo "30 23 * * 4 curl -o /etc/dnscrypt-proxy/blockedlist-ips.txt https://iplists.firehol.org/files/yoyo_adservers.ipset") | sort - | uniq - | crontab -
 (crontab -l ; echo "40 23 * * 4 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-allowlist.txt https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt") | sort - | uniq - | crontab -
-(crontab -l ; echo "30 23 * * 4 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/blocklist/domains-blocklist-default.conf") | sort - | uniq - | crontab -
 (crontab -l ; echo "15 * * * 5 cd /etc/dnscrypt-proxy/ &&  ./etc/dnscrypt-proxy/checkblocklist.sh") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 4,5 /bin/systemctl restart dnscrypt-proxy.service") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 6 /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh") | sort - | uniq - | crontab -
+
 
 
 #
@@ -442,30 +416,28 @@ systemctl start wg-quick@wg0.service
 systemctl restart tor
 
 
-#
-### set file for install check and tools download"
-echo "
-+++ do not delete this file +++
-Instructions coming soon 
-For - News / Updates / Issues - check my github site
-https://github.com/zzzkeil
-" > /root/Wireguard-DNScrypt-Tor-Server.README
-
-#
 ### finish
 clear
 echo ""
-echo "QR Code for client1.conf "
+echo ""
+echo -e "${YELLOW}QR Code for client1.conf${ENDCOLOR}"
+echo ""
 qrencode -t ansiutf8 < /etc/wireguard/client1.conf
-echo "Scan the QR Code with your Wiregard App"
+echo ""
+echo -e "${YELLOW}Scan the QR Code with your Wiregard App${ENDCOLOR}"
 qrencode -o /etc/wireguard/client1.png < /etc/wireguard/client1.conf
 qrencode -o /etc/wireguard/client2.png < /etc/wireguard/client2.conf
 qrencode -o /etc/wireguard/client3.png < /etc/wireguard/client3.conf
-qrencode -o /etc/wireguard/client4.png < /etc/wireguard/client4.conf
-qrencode -o /etc/wireguard/client5.png < /etc/wireguard/client5.conf
 echo ""
-ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
+echo " 2 extra client configs with QR Codes created in folder : /etc/wireguard/"
+echo ""
+echo -e " add or remove clients with ${YELLOW}./add_client.sh / remove_client.sh${ENDCOLOR}"
+echo ""
+echo -e " backup and restore options with ${YELLOW}./wg_config_backup.sh / ./wg_config_restore.sh${ENDCOLOR}"
+echo ""
 ln -s /etc/wireguard/ /root/wireguard_folder
+ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
 ln -s /var/log /root/system-log_folder
 ufw --force enable
 ufw reload
+exit
