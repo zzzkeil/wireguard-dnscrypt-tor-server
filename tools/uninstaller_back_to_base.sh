@@ -45,10 +45,10 @@ if [[ "$EUID" -ne 0 ]]; then
 	exit 1
 fi
 
-systemctl disable unbound
+systemctl disable tor
 systemctl disable dnscrypt-proxy.service
 systemctl disable wg-quick@wg0.service
-systemctl stop unbound
+systemctl stop tor
 systemctl stop dnscrypt-proxy.service
 systemctl stop wg-quick@wg0.service
 
@@ -68,7 +68,7 @@ cp /root/script_backupfiles/sysctl.conf.orig /etc/sysctl.conf
 cp /root/script_backupfiles/sysctl.conf.ufw.orig /etc/ufw/sysctl.conf
 cp /etc/resolv.conf.orig /etc/resolv.conf
 
-apt remove qrencode unbound unbound-host wireguard wireguard-tools -y
+apt remove qrencode tor deb.torproject.org-keyring wireguard wireguard-tools -y
 apt autoremove -y
 apt autoclean -y
 
@@ -91,7 +91,7 @@ rm /var/log/dnscrypt-proxy-blocked.log
 rm /etc/systemd/system/dnscrypt-proxy.service
 rm -rf /etc/wireguard
 rm -rf /etc/dnscrypt-proxy
-rm -rf /etc/unbound
+rm -rf /etc/tor/torrc
 rm wireguard-dnscrypt_blocklist_x86.sh
 rm wireguard-dnscrypt_blocklist_arm64.sh
 rm /root/wireguard_folder
@@ -104,7 +104,9 @@ rm wg_config_backup.sh
 rm wg_config_restore.sh
 
 #ufw reload
-
+clear 
+echo ""
+echo ""
 echo " for now, remove ufw firewall rule manual plz "
 ufw status numbered
 echo " ufw delete . "
