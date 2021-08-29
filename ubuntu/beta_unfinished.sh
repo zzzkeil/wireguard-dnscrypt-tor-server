@@ -413,6 +413,7 @@ systemctl enable wg-quick@wg0.service
 systemctl start wg-quick@wg0.service
 /etc/dnscrypt-proxy/dnscrypt-proxy -service install
 /etc/dnscrypt-proxy/dnscrypt-proxy -service start
+systemctl enable tor
 systemctl restart tor
 
 
