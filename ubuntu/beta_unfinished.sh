@@ -347,8 +347,9 @@ chmod 600 /etc/wireguard/client3.conf
 cp /etc/tor/torrc /root/script_backupfiles/torrc.orig
 rm /etc/tor/torrc
 echo "
-  VirtualAddrNetwork 10.192.0.0/10
+  VirtualAddrNetworkIPv4 172.16.0.0/12
   AutomapHostsOnResolve 1
+  AutomapHostsSuffixes .onion
   DNSPort 10.$wg0networkv4.1:53530
   TransPort 10.$wg0networkv4.1:9040
   
