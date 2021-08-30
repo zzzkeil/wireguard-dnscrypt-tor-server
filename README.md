@@ -2,7 +2,7 @@
 
 ### Project start 2021.01.24
 
-#### status 2021.08.29 : systemd-resolved fixed to get systemsupdates
+#### status 2021.08.29 : 
 ** whats working :  
 * wireguard
 * dnscrypt
