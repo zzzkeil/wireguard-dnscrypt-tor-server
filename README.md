@@ -4,11 +4,13 @@
 
 ### Project start 2021.01.24
 
-#### status 2021.06.04 : systemd-resolved fixed to get systemsupdates
+#### status 2021.08.29 : systemd-resolved fixed to get systemsupdates
 ** whats working :  
 * wireguard
 * dnscrypt
 * tor
+
+( some issues with .onion have to be fixed  / not working in this version )
 
 
 ## ** project target 
