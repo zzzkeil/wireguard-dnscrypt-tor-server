@@ -1,6 +1,5 @@
 # Wireguard-tor-Server 
 
-### Project start 2021.01.24
 
 #### status 2022.03.12 : 
 test to update my script and debian 11 support
@@ -12,6 +11,7 @@ test to update my script and debian 11 support
 
 ( some issues with .onion have to be fixed  / not working in this version )
 
+### Project start 2021.01.24
 
 ## ** project target 
 * wireguard client vpn connection to server 
