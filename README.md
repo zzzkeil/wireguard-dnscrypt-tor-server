@@ -25,9 +25,9 @@ test to update my script and debian 11 support
 
 ###### update beta test :) 2022.03.12  Server x86 - debian 11 :
 ```
-wget -O  wireguard-dnscrypt-tor-server-x86.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/debian_ubuntu/beta_unfinished.sh
-chmod +x wireguard-dnscrypt-tor-server-x86.sh
-./wireguard-dnscrypt-tor-server-x86.sh
+wget -O  wireguard-tor-dnscrypt_blocklist_x86.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/debian_ubuntu/wireguard-tor-dnscrypt_blocklist_x86.sh
+chmod +x wireguard-tor-dnscrypt_blocklist_x86.sh
+./wireguard-tor-dnscrypt_blocklist_x86.sh
 ```
 
 
