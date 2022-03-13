@@ -166,14 +166,12 @@ if [[ "$ID" = 'debian' ]] then
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
  " > /etc/apt/sources.list.d/tor.list
-   else 
 fi
 if [[ "$ID" = 'ubuntu' ]] then
     echo "
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
- " > /etc/apt/sources.list.d/tor.list
-   else 
+ " > /etc/apt/sources.list.d/tor.list 
 fi
 
 ### apt systemupdate and installs	 
