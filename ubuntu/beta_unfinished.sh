@@ -18,7 +18,7 @@ echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}My base_setup script is needed to install
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}will automatically download the script, you need to run this manualy       ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}More information: https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}##############################################################################${ENDCOLOR}"
-echo -e " ${GRAYB}#${ENDCOLOR}                 Version 2021.08.29 - beta test                                               ${GRAYB}#${ENDCOLOR}"
+echo -e " ${GRAYB}#${ENDCOLOR}                 Version 2022.03.13 - beta test                                               ${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}##############################################################################${ENDCOLOR}"
 echo ""
 echo ""
@@ -59,29 +59,24 @@ if [[ -e /root/base_setup.README ]]; then
 	 exit 1
 fi
 
-### check if Ubuntu OS 18.04 or 20.04
-if [[ -e /etc/os-release ]]; then
-      echo -e "/etc/os-release check = ${GREEN}ok${ENDCOLOR}"
-      else
-      echo "/etc/os-release not found! Maybe no Ubuntu OS ?"
-      echo -e "${RED}This script is made for Ubuntu 18.04 / 20.04${ENDCOLOR}"
-      exit 1
-fi
 
+### check if Debian or Ubuntu
 . /etc/os-release
-if [[ "$NAME" = 'Ubuntu' ]]; then
-   echo -e "OS Name check = ${GREEN}ok${ENDCOLOR}"
+if [[ "$ID" = 'debian' ]] || [[ "$ID" = 'ubuntu' ]]; then
+   echo -e "OS ID check = ${GREEN}ok${ENDCOLOR}"
    else 
-   echo -e "${RED}This script is made for Ubuntu 18.04 / 20.04${ENDCOLOR}"
+   echo -e "${RED}This script is only for Debian and Ubuntu ${ENDCOLOR}"
    exit 1
 fi
 
-if [[ "$VERSION_ID" = '18.04' ]] || [[ "$VERSION_ID" = '20.04' ]]; then
+if [[ "$VERSION_ID" = '11' ]] || [[ "$VERSION_ID" = '20.04' ]]; then
    echo -e "OS Versions check = ${GREEN}ok${ENDCOLOR}"
    else
-   echo -e "${RED}Ubuntu Versions below 18.04 not supported - upgrade please, its 2021 :) ${ENDCOLOR}"
+   echo -e "${RED}Only Debian 11 and Ubuntu 20.04 supported ${ENDCOLOR}"
+
    exit 1
 fi
+
 
 
 ### script already installed check
@@ -209,11 +204,6 @@ chmod +x remove_client.sh
 chmod +x wg_config_backup.sh
 chmod +x wg_config_restore.sh
 chmod +x uninstaller_back_to_base.sh
-
-
-
-
-
 
 
 
@@ -358,7 +348,7 @@ echo "
 
 ###setup DNSCrypt 
 mkdir /etc/dnscrypt-proxy/
-wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.0/dnscrypt-proxy-linux_x86_64-2.1.0.tar.gz
+wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.1/dnscrypt-proxy-linux_x86_64-2.1.1.tar.gz
 tar -xvzf /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz -C /etc/dnscrypt-proxy/
 mv -f /etc/dnscrypt-proxy/linux-x86_64/* /etc/dnscrypt-proxy/
 cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt 
