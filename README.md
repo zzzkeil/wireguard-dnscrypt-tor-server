@@ -15,8 +15,8 @@ update my script and run a quick test on debian 11 now
 ### Project start 2021.01.24
 
 ## ** project target 
-* wireguard client vpn connection to server 
-* all traffic from wireguard clients goes to tor network
+* encrypted wireguard vpn connection to server 
+* all traffic from wireguard clients will go over tor network
 * dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
 * onion (darknet) nameresulotion over dnscrypt forward to tor
 
