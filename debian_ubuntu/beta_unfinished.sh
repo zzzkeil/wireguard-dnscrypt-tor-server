@@ -160,18 +160,29 @@ clear
 echo ""
 echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
 
-echo "
+### apt systemupdate and installs	 
+apt update && apt upgrade -y && apt autoremove -y
+apt install qrencode python curl linux-headers-$(uname -r) apt-transport-https gpg -y 
+
+
+. /etc/os-release
+if [[ "$ID" = 'debian' ]] then
+  # !! tor für debian fehlt noch
+   else 
+fi
+if [[ "$ID" = 'ubuntu' ]] then
+    echo "
 deb https://deb.torproject.org/torproject.org focal main
 deb-src https://deb.torproject.org/torproject.org focal main 
 " > /etc/apt/sources.list.d/tor.list
 
 curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --import
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+   else 
+fi
 
 
-### apt systemupdate and installs	 
-apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode python curl linux-headers-$(uname -r) apt-transport-https -y 
+
 apt install wireguard wireguard-tools tor deb.torproject.org-keyring -y
 
 
