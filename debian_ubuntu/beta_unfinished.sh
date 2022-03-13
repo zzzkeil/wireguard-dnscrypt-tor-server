@@ -375,12 +375,16 @@ curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist-local-additions.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-blocklist-local-additions.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-time-restricted.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-time-restricted.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-allowlist.txt https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
+# old curl -o /etc/dnscrypt-proxy/utils/generate-domains-blacklists/generate-domains-blacklist.py https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blacklists/generate-domains-blacklist.py
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py https://raw.githubusercontent.com/DNSCrypt/dnscrypt-proxy/master/utils/generate-domains-blocklist/generate-domains-blocklist.py
 chmod +x /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py
 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/
 nano /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf
 ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklist.txt
 cd
+### setup your allowlist
+curl -o /etc/dnscrypt-proxy/allowed-names.txt https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/blocklist/domains-allowed-names.txt
+nano /etc/dnscrypt-proxy/allowed-names.txt
 ## check if generate blocklist failed - file is empty
 curl -o /etc/dnscrypt-proxy/checkblocklist.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/configs/checkblocklist.sh
 chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
