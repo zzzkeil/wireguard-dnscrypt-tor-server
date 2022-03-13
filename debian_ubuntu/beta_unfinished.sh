@@ -160,6 +160,12 @@ clear
 echo ""
 echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
 
+### apt systemupdate and installs	 
+apt update && apt upgrade -y && apt autoremove -y
+apt install qrencode python wget curl linux-headers-$(uname -r) apt-transport-https gpg -y 
+
+
+### apt os extras
 . /etc/os-release
 if [[ "$ID" = 'debian' ]]; then
  echo "
@@ -174,9 +180,6 @@ if [[ "$ID" = 'ubuntu' ]]; then
  " > /etc/apt/sources.list.d/tor.list 
 fi
 
-### apt systemupdate and installs	 
-apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode python wget curl linux-headers-$(uname -r) apt-transport-https gpg -y 
 wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
 apt update
 apt install wireguard wireguard-tools tor deb.torproject.org-keyring -y
