@@ -2,12 +2,13 @@
 
 
 #### status 2022.03.12 : 
-test to update my script and debian 11 support
+update my script and run a quick test on debian 11 now
 
 ** whats working :  
 * wireguard
 * dnscrypt
 * tor
+* blocklist...
 
 ( some issues with .onion have to be fixed  / not working in this version )
 
@@ -15,13 +16,12 @@ test to update my script and debian 11 support
 
 ## ** project target 
 * wireguard client vpn connection to server 
-* all traffic from wireguard clients to tor network
+* all traffic from wireguard clients goes to tor network
 * dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
 * onion (darknet) nameresulotion over dnscrypt forward to tor
 
 ## How to install :  
 ## use the following just for testing 
-
 
 ###### update beta test :) 2022.03.12  Server x86 - debian 11 :
 ```
