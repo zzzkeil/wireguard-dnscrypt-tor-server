@@ -1,4 +1,4 @@
-# Wireguard-tor-Server 
+# Wireguard-tor-server gateway
 
 
 #### status 2022.03.12 : 
