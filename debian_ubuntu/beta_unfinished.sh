@@ -161,13 +161,13 @@ echo ""
 echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
 
 . /etc/os-release
-if [[ "$ID" = 'debian' ]] then
+if [[ "$ID" = 'debian' ]]; then
  echo "
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
  " > /etc/apt/sources.list.d/tor.list
 fi
-if [[ "$ID" = 'ubuntu' ]] then
+if [[ "$ID" = 'ubuntu' ]]; then
     echo "
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
