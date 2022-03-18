@@ -10,7 +10,8 @@ update my script and run a quick test on debian 11 now
 * tor
 * blocklist...
 
-( some issues with .onion have to be fixed  / not working in this version )
+( some issues with .onion have to be fixed )
+
 
 ### Project start 2021.01.24
 
