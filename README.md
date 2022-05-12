@@ -1,8 +1,8 @@
 # Wireguard-tor-server gateway
 
 
-#### status 2022.03.12 : 
-update my script and run a quick test on debian 11 now
+#### status 2022.05.12 : 
+add support for ubuntu 22.04
 
 ** whats working :  
 * wireguard
