@@ -69,10 +69,10 @@ if [[ "$ID" = 'debian' ]] || [[ "$ID" = 'ubuntu' ]]; then
    exit 1
 fi
 
-if [[ "$VERSION_ID" = '11' ]] || [[ "$VERSION_ID" = '20.04' ]]; then
+if [[ "$VERSION_ID" = '11' ]] || [[ "$VERSION_ID" = '20.04' ]] || [[ "$VERSION_ID" = '22.04' ]]; then
    echo -e "OS Versions check = ${GREEN}ok${ENDCOLOR}"
    else
-   echo -e "${RED}Only Debian 11 and Ubuntu 20.04 supported ${ENDCOLOR}"
+   echo -e "${RED}Only Debian 11 and Ubuntu 20.04 and 22.04 supported ${ENDCOLOR}"
 
    exit 1
 fi
