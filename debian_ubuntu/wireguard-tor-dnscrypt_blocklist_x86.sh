@@ -174,10 +174,18 @@ if [[ "$ID" = 'debian' ]]; then
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
  " > /etc/apt/sources.list.d/tor.list
 fi
-if [[ "$ID" = 'ubuntu' ]]; then
+
+if [[ "$VERSION_ID" = '20.04' ]]; then
     echo "
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
    deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
+ " > /etc/apt/sources.list.d/tor.list 
+fi
+
+if [[ "$VERSION_ID" = '22.04' ]]; then
+    echo "
+   deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org jammy main
+   deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org jammy main
  " > /etc/apt/sources.list.d/tor.list 
 fi
 
