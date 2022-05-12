@@ -18,7 +18,7 @@ echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}My base_setup script is needed to install
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}will automatically download the script, you need to run this manualy       ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}More information: https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}##############################################################################${ENDCOLOR}"
-echo -e " ${GRAYB}#${ENDCOLOR}                 Version 2022.03.13 - beta test                                               ${GRAYB}#${ENDCOLOR}"
+echo -e " ${GRAYB}#${ENDCOLOR}                 Version 2022.05.12 - beta test                                               ${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}##############################################################################${ENDCOLOR}"
 echo ""
 echo ""
@@ -68,6 +68,7 @@ if [[ "$ID" = 'debian' ]] || [[ "$ID" = 'ubuntu' ]]; then
    echo -e "${RED}This script is only for Debian and Ubuntu ${ENDCOLOR}"
    exit 1
 fi
+
 
 if [[ "$VERSION_ID" = '11' ]] || [[ "$VERSION_ID" = '20.04' ]] || [[ "$VERSION_ID" = '22.04' ]]; then
    echo -e "OS Versions check = ${GREEN}ok${ENDCOLOR}"
