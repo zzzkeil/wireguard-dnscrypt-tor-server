@@ -13,7 +13,7 @@ ENDCOLOR="\e[0m"
 
 clear
 echo -e " ${GRAYB}##############################################################################${ENDCOLOR}"
-echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}Wireguard-DNScrypt-TOR-Server setup script for Ubuntu 18.04 and above      ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
+echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}Wireguard-DNScrypt-TOR-Server setup script for Ubuntu 20.04 and above      ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}My base_setup script is needed to install, if not installed this script    ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}will automatically download the script, you need to run this manualy       ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}More information: https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
@@ -163,7 +163,7 @@ echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
 
 ### apt systemupdate and installs	 
 apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode python wget curl linux-headers-$(uname -r) apt-transport-https gpg -y 
+apt install qrencode python-is-python3 wget curl linux-headers-$(uname -r) apt-transport-https gpg -y 
 
 
 ### apt os extras
