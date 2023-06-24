@@ -48,7 +48,7 @@ echo -e "${GREEN}OS check ${ENDCOLOR}"
 . /etc/os-release
 
 if [[ "$ID" = 'debian' ]]; then
- if [[ "$VERSION_ID" = '12' ]] || [[ "$VERSION_ID" = '11' ]]; then
+ if [[ "$VERSION_ID" = '12' ]]; then
    echo -e "${GREEN}OS = Debian ${ENDCOLOR}"
    systemos=debian
    fi
@@ -56,7 +56,7 @@ fi
 
 
 if [[ "$ID" = 'fedora' ]]; then
- if [[ "$VERSION_ID" = '38' ]] || [[ "$VERSION_ID" = '37' ]]; then
+ if [[ "$VERSION_ID" = '38' ]]; then
    echo -e "${GREEN}OS = Fedora ${ENDCOLOR}"
    systemos=fedora
    fi
@@ -194,72 +194,70 @@ fi
 clear
 
 
-exit
-###############################################   todo stats here    ###############################################
+#
+# OS updates
+#
+echo -e "${GREEN}update upgrade and install ${ENDCOLOR}"
 
-
-
-
-echo ""
-echo -e "${YELLOW}apt systemupdate and installs${ENDCOLOR}"
-
-### apt systemupdate and installs	 
-apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode python-is-python3 wget curl linux-headers-$(uname -r) apt-transport-https gpg -y 
-
-
-### apt os extras
-. /etc/os-release
-if [[ "$ID" = 'debian' ]]; then
- echo "
-   deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
-   deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bullseye main
+if [[ "$systemos" = 'debian' ]]; then
+#Tor repository
+echo "
+   deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bookworm main
+   deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bookworm main
  " > /etc/apt/sources.list.d/tor.list
-fi
-
-if [[ "$VERSION_ID" = '20.04' ]]; then
-    echo "
-   deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
-   deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org focal main
- " > /etc/apt/sources.list.d/tor.list 
-fi
-
-if [[ "$VERSION_ID" = '22.04' ]]; then
-    echo "
-   deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org jammy main
-   deb-src [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org jammy main
- " > /etc/apt/sources.list.d/tor.list 
-fi
-
 wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
-apt update
-apt install wireguard wireguard-tools tor deb.torproject.org-keyring -y
+#Tor repository
+apt update && apt upgrade -y && apt autoremove -y
+apt install qrencode python-is-python3 curl apt-transport-https linux-headers-$(uname -r) tor deb.torproject.org-keyring -y
+apt install wireguard wireguard-tools -y
+fi
+
+if [[ "$systemos" = 'fedora' ]]; then
+#Tor repository
+echo "
+[tor]
+name=Tor for Fedora $releasever - $basearch
+baseurl=https://rpm.torproject.org/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.torproject.org/fedora/public_gpg.key
+cost=100
+" > /etc/yum.repos.d/tor.repo
+#Tor repository
+dnf upgrade --refresh -y && dnf autoremove -y
+dnf install qrencode python-is-python3 curl cronie cronie-anacron tor -y
+dnf install wireguard-tools -y
+fi
 
 
 ### create and download files for configs
 echo "
-+++ do not delete or modify this file +++
-++ This file contains settings line by line ++
+!!! do not delete or modify this file
+!!  This file contains values line by line, used for config, backups and restores
+
 --- ip settings
-ipv4 
+ipv4
 $wg0networkv4
+ipv6
+$wg0networkv6
 --- port and misc settings
 wg0
 $wg0port
 $wg0mtu
 $wg0keepalive
 ---
-For - News / Updates / Issues - check my github site
+
+For - News / Updates / Issues - check my gitlab site
 https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server
-" > /root/Wireguard-DNScrypt-Tor-Server.README
+" > /root/Wireguard-DNScrypt-VPN-Server.README
 
+### for now a copy form https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/
+curl -o add_client.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/add_client.sh
+curl -o remove_client.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/remove_client.sh
+curl -o wg_config_backup.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/wg_config_backup.sh
+curl -o wg_config_restore.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/wg_config_restore.sh
+curl -o uninstaller_back_to_base.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/uninstaller_back_to_base.sh
 
-
-curl -o add_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/add_client.sh
-curl -o remove_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/remove_client.sh
-curl -o wg_config_backup.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_backup.sh
-curl -o wg_config_restore.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_restore.sh
-curl -o uninstaller_back_to_base.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/uninstaller_back_to_base.sh
 chmod +x add_client.sh
 chmod +x remove_client.sh
 chmod +x wg_config_backup.sh
@@ -268,25 +266,35 @@ chmod +x uninstaller_back_to_base.sh
 
 
 
-
 ### setup ufw and sysctl
-inet=$(ip route show default | awk '/default/ {print $5}')
-#ufw allow $wg0port/udp
-ufw allow proto udp to 0.0.0.0/0 port $wg0port
-cp /etc/default/ufw /root/script_backupfiles/ufw.orig
-cp /etc/ufw/before.rules /root/script_backupfiles/before.rules.orig
-cp /etc/ufw/before6.rules /root/script_backupfiles/before6.rules.orig
-sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
-sed -i "1i# START WIREGUARD RULES\n# NAT table rules\n*nat\n:POSTROUTING ACCEPT [0:0]\n# Allow traffic from WIREGUARD client \n-A POSTROUTING -s 10.$wg0networkv4.0/24 -o $inet -j MASQUERADE\n-A PREROUTING -i wg0 -p udp --dport 53 -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:5353\n-A PREROUTING -i wg0 -p tcp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:9040\n-A PREROUTING -i wg0 -p udp -s 10.$wg0networkv4.0/24 -j DNAT --to-destination 10.$wg0networkv4.1:9040\nCOMMIT\n# END WIREGUARD RULES\n" /etc/ufw/before.rules
-sed -i "/# End required lines/a \-A INPUT -i wg0 -s 10.$wg0networkv4.0/24 -m state --state NEW -j ACCEPT" /etc/ufw/before.rules
-sed -i '/-A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT/a \\n# allow outbound icmp\n-A ufw-before-output -p icmp -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT\n-A ufw-before-output -p icmp -m state --state ESTABLISHED,RELATED -j ACCEPT\n' /etc/ufw/before.rules
-cp /etc/sysctl.conf /root/script_backupfiles/sysctl.conf.orig
-sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-cp /etc/ufw/sysctl.conf /root/script_backupfiles/sysctl.conf.ufw.orig
-sed -i 's@#net/ipv4/ip_forward=1@net/ipv4/ip_forward=1@g' /etc/ufw/sysctl.conf
 
+### setup firewalld and sysctl
+hostipv4=$(hostname -I | awk '{print $1}')
+#i try to disable ipv6 hostipv6=$(hostname -I | awk '{print $2}')
+
+firewall-cmd --zone=public --add-port="$wg0port"/udp
+
+firewall-cmd --zone=trusted --add-source=10.$wg0networkv4.0/24
+firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j SNAT --to "$hostipv4"
+
+#i try to disable ipv6 if [[ -n "$hostipv6" ]]; then
+#i try to disable ipv6 firewall-cmd --zone=trusted --add-source=fd42:$wg0networkv6::/64
+#i try to disable ipv6 firewall-cmd --direct --add-rule ipv6 nat POSTROUTING 0 -s fd42:$wg0networkv6::/64 ! -d fd42:$wg0networkv6::/64 -j SNAT --to "$hostipv6"
+fi
+
+firewall-cmd --zone=trusted --add-forward-port=port=53:proto=tcp:toport=53:toaddr=127.0.0.1
+firewall-cmd --zone=trusted --add-forward-port=port=53:proto=udp:toport=53:toaddr=127.0.0.1
+
+firewall-cmd --runtime-to-permanent
+
+echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/99-wireguard_ip_forward.conf
+#i try to disable ipv6 echo "net.ipv6.conf.all.forwarding=1" >> /etc/sysctl.d/99-wireguard_ip_forward.conf
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+#i try to disable ipv6 echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
 
 #### not working 4 now
+inet=$(ip route show default | awk '/default/ {print $5}')
 echo "
 net.ipv6.conf.$inet.disable_ipv6 = 1
 net.ipv6.conf.wg0.disable_ipv6 = 1
@@ -403,18 +411,29 @@ echo "
   AutomapHostsSuffixes .onion
   DNSPort 10.$wg0networkv4.1:53530
   TransPort 10.$wg0networkv4.1:9040
-  
   " > /etc/tor/torrc
 
 
-###setup DNSCrypt 
+
+###setup DNSCrypt
 mkdir /etc/dnscrypt-proxy/
-wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.1/dnscrypt-proxy-linux_x86_64-2.1.1.tar.gz
+wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.4/dnscrypt-proxy-linux_$dnsscrpt_arch-2.1.4.tar.gz
 tar -xvzf /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz -C /etc/dnscrypt-proxy/
-mv -f /etc/dnscrypt-proxy/linux-x86_64/* /etc/dnscrypt-proxy/
-cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt 
-curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy.toml
-curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
+mv -f /etc/dnscrypt-proxy/linux-$dnsscrpt_arch/* /etc/dnscrypt-proxy/
+cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt
+
+
+exit
+###############################################   todo stats here    ###############################################
+
+
+
+#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/dnscrypt-proxy.toml
+#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy.toml
+
+#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/dnscrypt-proxy-update.sh
+#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
+
 chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
 
 sed -i "s/0.0.0.0/10.$wg0networkv4.1/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
