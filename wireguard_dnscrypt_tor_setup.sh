@@ -264,24 +264,24 @@ chmod +x wg_config_restore.sh
 chmod +x uninstaller_back_to_base.sh
 
 
-### setup ufw and sysctl
+##################################### firewall settings todo !!!
 
 ### setup firewalld and sysctl
-hostipv4=$(hostname -I | awk '{print $1}')
+#hostipv4=$(hostname -I | awk '{print $1}')
 #i try to disable ipv6 hostipv6=$(hostname -I | awk '{print $2}')
 
 firewall-cmd --zone=public --add-port="$wg0port"/udp
 
 firewall-cmd --zone=trusted --add-source=10.$wg0networkv4.0/24
-firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j SNAT --to "$hostipv4"
+firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j DNAT --to 10.$wg0networkv4.1:9040
 
 #i try to disable ipv6 if [[ -n "$hostipv6" ]]; then
 #i try to disable ipv6 firewall-cmd --zone=trusted --add-source=fd42:$wg0networkv6::/64
 #i try to disable ipv6 firewall-cmd --direct --add-rule ipv6 nat POSTROUTING 0 -s fd42:$wg0networkv6::/64 ! -d fd42:$wg0networkv6::/64 -j SNAT --to "$hostipv6"
 fi
 
-firewall-cmd --zone=trusted --add-forward-port=port=53:proto=tcp:toport=53:toaddr=127.0.0.1
-firewall-cmd --zone=trusted --add-forward-port=port=53:proto=udp:toport=53:toaddr=127.0.0.1
+firewall-cmd --zone=trusted --add-forward-port=port=53:proto=tcp:toport=5353:toaddr=127.0.0.1
+firewall-cmd --zone=trusted --add-forward-port=port=53:proto=udp:toport=5353:toaddr=127.0.0.1
 
 firewall-cmd --runtime-to-permanent
 
