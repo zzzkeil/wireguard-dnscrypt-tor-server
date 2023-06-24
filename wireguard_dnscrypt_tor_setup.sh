@@ -210,7 +210,7 @@ echo "
 wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
 #Tor repository
 apt update
-apt install tor deb.torproject.org-keyring 
+apt install tor deb.torproject.org-keyring -y
 apt install wireguard wireguard-tools -y
 fi
 
