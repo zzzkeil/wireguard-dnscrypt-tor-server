@@ -1,4 +1,4 @@
-listen_addresses = ['[::]:5353']
+listen_addresses = ['0.0.0.0:5353']
 disabled_server_names = ['cs-de2', 'cs-nl', 'cs-fr', 'bcn', 'cisco', 'cisco-familyshield', 'cleanbrowsing-adult', 'cleanbrowsing-family', 'cleanbrowsing-security', 'adguard-dns-unfiltered']
 server_names = ['nextdns-ipv6', 'nextdns', 'mullvad-doh', 'meganerd', 'meganerd-ipv6', 'dns.digitale-gesellschaft.ch-ipv6', 'dns.digitale-gesellschaft.ch', 'bortzmeyer', 'bortzmeyer-ipv6', 'doh.appliedprivacy.net', 'ffmuc.net', 'ffmuc.net-v6', 'v.dnscrypt.uk-ipv4', 'v.dnscrypt.uk-ipv6']
 max_clients = 250
