@@ -251,19 +251,17 @@ For - News / Updates / Issues - check my gitlab site
 https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server
 " > /root/Wireguard-DNScrypt-VPN-Server.README
 
-### for now a copy form https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/
-curl -o add_client.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/add_client.sh
-curl -o remove_client.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/remove_client.sh
-curl -o wg_config_backup.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/wg_config_backup.sh
-curl -o wg_config_restore.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/wg_config_restore.sh
-curl -o uninstaller_back_to_base.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/uninstaller_back_to_base.sh
+curl -o add_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/add_client.sh
+curl -o remove_client.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/remove_client.sh
+curl -o wg_config_backup.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_backup.sh
+curl -o wg_config_restore.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/wg_config_restore.sh
+curl -o uninstaller_back_to_base.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/uninstaller_back_to_base.sh
 
 chmod +x add_client.sh
 chmod +x remove_client.sh
 chmod +x wg_config_backup.sh
 chmod +x wg_config_restore.sh
 chmod +x uninstaller_back_to_base.sh
-
 
 
 ### setup ufw and sysctl
@@ -421,21 +419,9 @@ wget -O /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz https://github.com/DNSCrypt/dn
 tar -xvzf /etc/dnscrypt-proxy/dnscrypt-proxy.tar.gz -C /etc/dnscrypt-proxy/
 mv -f /etc/dnscrypt-proxy/linux-$dnsscrpt_arch/* /etc/dnscrypt-proxy/
 cp /etc/dnscrypt-proxy/example-blocked-names.txt /etc/dnscrypt-proxy/blocklist.txt
-
-
-exit
-###############################################   todo stats here    ###############################################
-
-
-
-#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/dnscrypt-proxy.toml
-#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy.toml
-
-#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/dnscrypt-proxy-update.sh
-#curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/configs/dnscrypt-proxy-update.sh
-
+curl -o /etc/dnscrypt-proxy/dnscrypt-proxy.toml https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/dnscrypt-proxy.toml
+curl -o /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/tools/dnscrypt-proxy-update.sh
 chmod +x /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh
-
 sed -i "s/0.0.0.0/10.$wg0networkv4.1/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 
 
@@ -451,11 +437,10 @@ onion 10.$wg0networkv4.1:53530
 ### !!! this configs files linked to my Wireguard-DNScrypt-VPN-Server repository !!!
 mkdir /etc/dnscrypt-proxy/utils/
 mkdir /etc/dnscrypt-proxy/utils/generate-domains-blocklists/
-curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/blocklist/domains-blocklist-default.conf
+curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.conf https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/domains-blocklist-default.conf
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist-local-additions.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-blocklist-local-additions.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-time-restricted.txt https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blocklist/domains-time-restricted.txt
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-allowlist.txt https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
-# old curl -o /etc/dnscrypt-proxy/utils/generate-domains-blacklists/generate-domains-blacklist.py https://raw.githubusercontent.com/jedisct1/dnscrypt-proxy/master/utils/generate-domains-blacklists/generate-domains-blacklist.py
 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py https://raw.githubusercontent.com/DNSCrypt/dnscrypt-proxy/master/utils/generate-domains-blocklist/generate-domains-blocklist.py
 chmod +x /etc/dnscrypt-proxy/utils/generate-domains-blocklists/generate-domains-blocklist.py
 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/
@@ -463,22 +448,21 @@ nano /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-blocklist.con
 ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklist.txt
 cd
 ### setup your allowlist
-curl -o /etc/dnscrypt-proxy/allowed-names.txt https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/blocklist/domains-allowed-names.txt
+curl -o /etc/dnscrypt-proxy/allowed-names.txt https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/domains-allowed-names.txt
 nano /etc/dnscrypt-proxy/allowed-names.txt
 ## check if generate blocklist failed - file is empty
-curl -o /etc/dnscrypt-proxy/checkblocklist.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/configs/checkblocklist.sh
+curl -o /etc/dnscrypt-proxy/checkblocklist.sh https://raw.githubusercontent.com/zzzkeil/Wireguard-DNScrypt-VPN-Server/master/tools/checkblocklist.sh
 chmod +x /etc/dnscrypt-proxy/checkblocklist.sh
 
 curl -o /etc/dnscrypt-proxy/blockedlist-ips.txt https://iplists.firehol.org/files/yoyo_adservers.ipset
 
 ### create crontabs
-(crontab -l ; echo "50 23 * * 4 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/ &&  ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklists.txt") | sort - | uniq - | crontab -
+(crontab -l ; echo "50 23 * * 4 cd /etc/dnscrypt-proxy/utils/generate-domains-blocklists/ &&  ./generate-domains-blocklist.py > /etc/dnscrypt-proxy/blocklist.txt") | sort - | uniq - | crontab -
 (crontab -l ; echo "30 23 * * 4 curl -o /etc/dnscrypt-proxy/blockedlist-ips.txt https://iplists.firehol.org/files/yoyo_adservers.ipset") | sort - | uniq - | crontab -
 (crontab -l ; echo "40 23 * * 4 curl -o /etc/dnscrypt-proxy/utils/generate-domains-blocklists/domains-allowlist.txt https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt") | sort - | uniq - | crontab -
 (crontab -l ; echo "15 * * * 5 cd /etc/dnscrypt-proxy/ &&  ./etc/dnscrypt-proxy/checkblocklist.sh") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 4,5 /bin/systemctl restart dnscrypt-proxy.service") | sort - | uniq - | crontab -
 (crontab -l ; echo "59 23 * * 6 /etc/dnscrypt-proxy/dnscrypt-proxy-update.sh") | sort - | uniq - | crontab -
-
 
 
 #
@@ -496,7 +480,6 @@ systemctl restart tor
 
 
 ### finish
-clear
 echo ""
 echo ""
 echo -e "${YELLOW}QR Code for client1.conf${ENDCOLOR}"
@@ -514,9 +497,12 @@ echo -e " add or remove clients with ${YELLOW}./add_client.sh / remove_client.sh
 echo ""
 echo -e " backup and restore options with ${YELLOW}./wg_config_backup.sh / ./wg_config_restore.sh${ENDCOLOR}"
 echo ""
+echo ""
+echo ""
+echo " Now it takes a time befor dnscrypt-proxy is ready. You can check the logfile with : cat /var/log/dnscrypt-proxy.log "
+echo ""
 ln -s /etc/wireguard/ /root/wireguard_folder
 ln -s /etc/dnscrypt-proxy/ /root/dnscrypt-proxy_folder
 ln -s /var/log /root/system-log_folder
-ufw --force enable
-ufw reload
+systemctl restart firewalld
 exit
