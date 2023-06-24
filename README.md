@@ -1,5 +1,5 @@
 # Wireguard-tor-server gateway
-
+##  2023.06.24 Info :   out off date :)  ....   new version is comming soon .........
 
 #### status 2022.05.12 : 
 add support for ubuntu 22.04
@@ -26,9 +26,7 @@ add support for ubuntu 22.04
 
 ###### update beta test :) 2022.03.12  Server x86 - debian 11 ubuntu 22.04 :
 ```
-wget -O  wireguard-tor-dnscrypt_blocklist_x86.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/debian_ubuntu/wireguard-tor-dnscrypt_blocklist_x86.sh
-chmod +x wireguard-tor-dnscrypt_blocklist_x86.sh
-./wireguard-tor-dnscrypt_blocklist_x86.sh
+out off date :)  ....   new version is comming soon .........
 ```
 
 
