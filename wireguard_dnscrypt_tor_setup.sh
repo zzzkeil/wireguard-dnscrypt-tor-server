@@ -279,11 +279,11 @@ firewall-cmd --zone=trusted --add-source=10.$wg0networkv4.0/24
 ######
 firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j SNAT --to 10.$wg0networkv4.1
 firewall-cmd --zone=trusted --add-forward-port=port=1-52:proto=tcp:toport=9040:toaddr=10.$wg0networkv4.1
-firewall-cmd --zone=trusted --add-forward-port=port=1-52:proto=tcp:toport=9040:toaddr=10.$wg0networkv4.1
+firewall-cmd --zone=trusted --add-forward-port=port=1-52:proto=udp:toport=9040:toaddr=10.$wg0networkv4.1
 firewall-cmd --zone=trusted --add-forward-port=port=53:proto=tcp:toport=5353:toaddr=10.$wg0networkv4.1
 firewall-cmd --zone=trusted --add-forward-port=port=53:proto=udp:toport=5353:toaddr=10.$wg0networkv4.1
 firewall-cmd --zone=trusted --add-forward-port=port=54-65535:proto=tcp:toport=9040:toaddr=10.$wg0networkv4.1
-firewall-cmd --zone=trusted --add-forward-port=port=54-65535:proto=tcp:toport=9040:toaddr=10.$wg0networkv4.1
+firewall-cmd --zone=trusted --add-forward-port=port=54-65535:proto=udp:toport=9040:toaddr=10.$wg0networkv4.1
 
 #i try to disable ipv6 if [[ -n "$hostipv6" ]]; then
 #i try to disable ipv6 firewall-cmd --zone=trusted --add-source=fd42:$wg0networkv6::/64
