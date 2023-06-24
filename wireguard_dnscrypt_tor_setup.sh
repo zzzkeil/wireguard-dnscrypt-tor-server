@@ -200,6 +200,8 @@ clear
 echo -e "${GREEN}update upgrade and install ${ENDCOLOR}"
 
 if [[ "$systemos" = 'debian' ]]; then
+apt update && apt upgrade -y && apt autoremove -y
+apt install qrencode python-is-python3 curl apt-transport-https gpg linux-headers-$(uname -r) -y
 #Tor repository
 echo "
    deb     [signed-by=/usr/share/keyrings/tor-archive-keyring.gpg] https://deb.torproject.org/torproject.org bookworm main
@@ -207,8 +209,8 @@ echo "
  " > /etc/apt/sources.list.d/tor.list
 wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor | tee /usr/share/keyrings/tor-archive-keyring.gpg >/dev/null
 #Tor repository
-apt update && apt upgrade -y && apt autoremove -y
-apt install qrencode python-is-python3 curl apt-transport-https linux-headers-$(uname -r) tor deb.torproject.org-keyring -y
+apt update
+apt installtor deb.torproject.org-keyring 
 apt install wireguard wireguard-tools -y
 fi
 
@@ -273,7 +275,7 @@ chmod +x uninstaller_back_to_base.sh
 firewall-cmd --zone=public --add-port="$wg0port"/udp
 
 firewall-cmd --zone=trusted --add-source=10.$wg0networkv4.0/24
-firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j DNAT --to 10.$wg0networkv4.1:9040
+firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.$wg0networkv4.0/24 ! -d 10.$wg0networkv4.0/24 -j SNAT --to 10.$wg0networkv4.1:9040
 
 #i try to disable ipv6 if [[ -n "$hostipv6" ]]; then
 #i try to disable ipv6 firewall-cmd --zone=trusted --add-source=fd42:$wg0networkv6::/64
