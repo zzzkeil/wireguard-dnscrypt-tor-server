@@ -54,6 +54,12 @@ if [[ "$ID" = 'debian' ]]; then
    fi
 fi
 
+if [[ "$ID" = 'ubuntu' ]]; then
+ if [[ "$VERSION_ID" = '22.04' ]]; then
+   echo -e "${GREEN}OS = Ubuntu ${ENDCOLOR}"
+   systemos=ubuntu
+   fi
+fi
 
 if [[ "$ID" = 'fedora' ]]; then
  if [[ "$VERSION_ID" = '38' ]]; then
@@ -62,6 +68,29 @@ if [[ "$ID" = 'fedora' ]]; then
    fi
 fi
 
+### testing .... should run
+if [[ "$ID" = 'rocky' ]]; then
+ if [[ "$ROCKY_SUPPORT_PRODUCT" = 'Rocky-Linux-9' ]]; then
+   echo -e "${GREEN}OS = Rocky Linux ${ENDCOLOR}"
+   systemos=rocky
+ fi
+fi
+
+### testing .... should run
+if [[ "$ID" = 'almalinux' ]]; then
+ if [[ "$ALMALINUX_MANTISBT_PROJECT" = 'AlmaLinux-9' ]]; then
+   echo -e "${GREEN}OS = AlmaLinux ${ENDCOLOR}"
+   systemos=almalinux
+ fi
+fi
+
+### testing .... should run
+if [[ "$ID" = 'centos' ]]; then
+ if [[ "$VERSION_ID" = '9' ]]; then
+   echo -e "${GREEN}OS = CentOS Stream ${ENDCOLOR}"
+   systemos=centos
+ fi
+fi
 
 if [[ "$systemos" = '' ]]; then
    clear
@@ -231,6 +260,22 @@ dnf install qrencode python-is-python3 curl cronie cronie-anacron tor -y
 dnf install wireguard-tools -y
 fi
 
+if [[ "$systemos" = 'rocky' ]] || [[ "$systemos" = 'centos' ]] || [[ "$systemos" = 'almalinux' ]]; then
+#Tor repository
+echo "
+[tor]
+name=Tor for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.torproject.org/centos/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.torproject.org/centos/public_gpg.key
+cost=100
+" > /etc/yum.repos.d/tor.repo
+#Tor repository
+dnf upgrade --refresh -y && dnf autoremove -y
+dnf install qrencode curl cronie cronie-anacron -y
+dnf install wireguard-tools -y
+fi
 
 ### create and download files for configs
 echo "
