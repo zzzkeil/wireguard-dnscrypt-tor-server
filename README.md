@@ -5,7 +5,6 @@
 
 [![https://hetzner.cloud/?ref=iP0i3O1wRcHu](https://img.shields.io/badge/maybe_you_can_support_me_-_my_VPS_hoster_hetzner_(referral_link)_thanks-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://hetzner.cloud/?ref=iP0i3O1wRcHu) 
 
-##  2023.06.24 Info :   out off date :)  ....   new version is comming soon .........
 
 
 ## How to install :  
@@ -13,8 +12,7 @@
 
 ###### Server x86 / ARM64 - Debian 12, Ubuntu 22.04, Fedora 38, Rocky Linux 9, CentOS Stream 9, AlmaLinux 9:
 ```
-out off date :)  ....   new version is comming soon .........
-Testversion : 2023.06.27
+## Testversion : 2023.06.27
 wget -O  wireguard_dnscrypt_tor_setup.sh https://raw.githubusercontent.com/zzzkeil/wireguard-dnscrypt-tor-server/main/wireguard_dnscrypt_tor_setup.sh
 chmod +x wireguard_dnscrypt_tor_setup.sh
 ./wireguard_dnscrypt_tor_setup.sh
