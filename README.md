@@ -5,7 +5,11 @@
 
 [![https://hetzner.cloud/?ref=iP0i3O1wRcHu](https://img.shields.io/badge/maybe_you_can_support_me_-_my_VPS_hoster_hetzner_(referral_link)_thanks-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://hetzner.cloud/?ref=iP0i3O1wRcHu) 
 
-
+## ** project target 
+* encrypted wireguard vpn connection to server 
+* all traffic from wireguard clients will go over tor network
+* dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
+* onion (darknet) nameresulotion over dnscrypt forward to tor
 
 ## How to install :  
 ## use the following just for testing 
@@ -20,8 +24,9 @@ chmod +x wireguard_dnscrypt_tor_setup.sh
 
 
 
-#### status 2022.05.12 : 
-add support for ubuntu 22.04
+
+
+#### status 2023.06.12 : 
 
 ** whats working :  
 * wireguard
@@ -32,13 +37,6 @@ add support for ubuntu 22.04
 ( some issues with .onion have to be fixed )
 
 
-### Project start 2021.01.24
-
-## ** project target 
-* encrypted wireguard vpn connection to server 
-* all traffic from wireguard clients will go over tor network
-* dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
-* onion (darknet) nameresulotion over dnscrypt forward to tor
 
 
 
