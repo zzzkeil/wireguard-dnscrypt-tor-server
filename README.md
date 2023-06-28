@@ -6,8 +6,8 @@
 [![https://hetzner.cloud/?ref=iP0i3O1wRcHu](https://img.shields.io/badge/maybe_you_can_support_me_-_my_VPS_hoster_hetzner_(referral_link)_thanks-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://hetzner.cloud/?ref=iP0i3O1wRcHu) 
 
 ## ** project target 
-* encrypted wireguard vpn connection to server 
-* all traffic from wireguard clients will go over tor network
+*  wireguard connection to server 
+* all traffic coming from wireguard clients will go over tor network
 * dns nameresulotion over dnscrypt (Anonymized DNS) with blocklists
 * onion (darknet) nameresulotion over dnscrypt forward to tor
 
