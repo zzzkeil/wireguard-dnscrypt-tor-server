@@ -460,9 +460,11 @@ rm /etc/tor/torrc
 echo "
   VirtualAddrNetworkIPv4 172.16.0.0/12
   AutomapHostsOnResolve 1
-  AutomapHostsSuffixes .onion
-  DNSPort 10.$wg0networkv4.1:53530
-  TransPort 10.$wg0networkv4.1:9040
+  DNSPort 53530
+  TransPort 9040
+  AutomapHostsSuffixes .onion,.exit
+  #DNSPort 10.$wg0networkv4.1:53530
+  #TransPort 10.$wg0networkv4.1:9040
   " > /etc/tor/torrc
 
 
@@ -483,7 +485,7 @@ sed -i "s/0.0.0.0/10.$wg0networkv4.1/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ### setup .onion access
 cp /etc/dnscrypt-proxy/example-forwarding-rules.txt /etc/dnscrypt-proxy/forwarding-rules.txt
 echo "
-onion 10.$wg0networkv4.1:53530
+onion 127.0.0.1:53530
 " >> /etc/dnscrypt-proxy/forwarding-rules.txt
 
 
