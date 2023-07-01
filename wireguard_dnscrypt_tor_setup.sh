@@ -61,36 +61,33 @@ if [[ "$ID" = 'ubuntu' ]]; then
    fi
 fi
 
-if [[ "$ID" = 'fedora' ]]; then
- if [[ "$VERSION_ID" = '38' ]]; then
-   echo -e "${GREEN}OS = Fedora ${ENDCOLOR}"
-   systemos=fedora
-   fi
-fi
+#if [[ "$ID" = 'fedora' ]]; then
+# if [[ "$VERSION_ID" = '38' ]]; then
+#   echo -e "${GREEN}OS = Fedora ${ENDCOLOR}"
+#   systemos=fedora
+#   fi
+#fi
 
-### testing .... should run
-if [[ "$ID" = 'rocky' ]]; then
- if [[ "$ROCKY_SUPPORT_PRODUCT" = 'Rocky-Linux-9' ]]; then
-   echo -e "${GREEN}OS = Rocky Linux ${ENDCOLOR}"
-   systemos=rocky
- fi
-fi
+#if [[ "$ID" = 'rocky' ]]; then
+# if [[ "$ROCKY_SUPPORT_PRODUCT" = 'Rocky-Linux-9' ]]; then
+#   echo -e "${GREEN}OS = Rocky Linux ${ENDCOLOR}"
+#   systemos=rocky
+# fi
+#fi
 
-### testing .... should run
-if [[ "$ID" = 'almalinux' ]]; then
- if [[ "$ALMALINUX_MANTISBT_PROJECT" = 'AlmaLinux-9' ]]; then
-   echo -e "${GREEN}OS = AlmaLinux ${ENDCOLOR}"
-   systemos=almalinux
- fi
-fi
+#if [[ "$ID" = 'almalinux' ]]; then
+# if [[ "$ALMALINUX_MANTISBT_PROJECT" = 'AlmaLinux-9' ]]; then
+#   echo -e "${GREEN}OS = AlmaLinux ${ENDCOLOR}"
+#   systemos=almalinux
+# fi
+#fi
 
-### testing .... should run
-if [[ "$ID" = 'centos' ]]; then
- if [[ "$VERSION_ID" = '9' ]]; then
-   echo -e "${GREEN}OS = CentOS Stream ${ENDCOLOR}"
-   systemos=centos
- fi
-fi
+#if [[ "$ID" = 'centos' ]]; then
+# if [[ "$VERSION_ID" = '9' ]]; then
+#   echo -e "${GREEN}OS = CentOS Stream ${ENDCOLOR}"
+#   systemos=centos
+# fi
+#fi
 
 if [[ "$systemos" = '' ]]; then
    clear
