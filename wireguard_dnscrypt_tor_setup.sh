@@ -13,12 +13,12 @@ ENDCOLOR="\e[0m"
 
 clear
 echo -e " ${GRAYB}#######################################################################################################################################${ENDCOLOR}"
-echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}Wireguard-DNScrypt-TOR-Server setup for Debian 12, Ubuntu 22.04, Fedora 38, Rocky Linux 9, CentOS Stream 9, AlmaLinux 9             ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
+echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}Wireguard-DNScrypt-TOR-Server setup for Debian 12, Ubuntu 22.04                                                                     ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}My base_setup.sh script is needed to setup this script correctly!!                                                                  ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}If not installed, a automatic download starts, then follow the instructions                                                         ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#${ENDCOLOR} ${GREEN}More info: https://github.com/zzzkeil/Wireguard-DNScrypt-VPN-Server                                                                 ${ENDCOLOR}${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#######################################################################################################################################${ENDCOLOR}"
-echo -e " ${GRAYB}#${ENDCOLOR}                      Version 2023.06.28 -  testing                                                                                  ${GRAYB}#${ENDCOLOR}"
+echo -e " ${GRAYB}#${ENDCOLOR}                      Version 2023.07.01 -- temp. removed Fedora 38, Rocky Linux 9, CentOS Stream 9, AlmaLinux 9                     ${GRAYB}#${ENDCOLOR}"
 echo -e " ${GRAYB}#######################################################################################################################################${ENDCOLOR}"
 echo ""
 echo ""
@@ -93,7 +93,7 @@ if [[ "$systemos" = '' ]]; then
    clear
    echo ""
    echo ""
-   echo -e "${RED}This script is only for Debian 12 / 11 or Fedora 38 / 37  !${ENDCOLOR}"
+   echo -e "${RED}This script is only for Debian 12 or Ubuntu 22.04 !${ENDCOLOR}"
    exit 1
 fi
 
